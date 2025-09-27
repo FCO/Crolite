@@ -7,7 +7,7 @@
   ],
   "depends": [
   ],
-  "description": "blah blah blah",
+  "description": "Lightweight Cro routing + tiny CLI wrapper",
   "license": "Artistic-2.0",
   "name": "Crolite",
   "perl": "6.d",
@@ -16,7 +16,7 @@
   },
   "resources": [
   ],
-  "source-url": "",
+  "source-url": "https://github.com/FCO/Crolite.git",
   "tags": [
   ],
   "test-depends": [

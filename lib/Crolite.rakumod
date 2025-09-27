@@ -71,23 +71,71 @@ sub EXPORT(--> Map()) {
 
 =head1 NAME
 
-Crolite - blah blah blah
+Crolite - Lightweight Cro routing + tiny CLI wrapper
 
 =head1 SYNOPSIS
 
 =begin code :lang<raku>
-
 use Crolite;
 
+get -> $a {          # /<anything>
+    content 'text/plain', 'worked';
+}
+
+delete -> 'something', Int $var {   # /something/<int>
+    content 'application/json', %( :$var );
+}
+=end code
+
+List routes:
+
+=begin code :lang<bash>
+raku example.raku routes
+=end code
+
+Run a dev server:
+
+=begin code :lang<bash>
+raku example.raku daemon --port=3000
+=end code
+
+Test a route ad-hoc:
+
+=begin code :lang<bash>
+raku example.raku GET /something/42
 =end code
 
 =head1 DESCRIPTION
 
-Crolite is ...
+Crolite removes boilerplate when hacking together small Cro HTTP examples. Importing it allocates a fresh `Cro::HTTP::Router::RouteSet` (stored in PROCESS scope) and exports the usual Cro routing helpers along with a multi `MAIN` providing:
+
+=item C<routes> — print collected endpoint signatures.
+
+=item C<daemon> — start a `Cro::HTTP::Server` with your route set (Ctrl+C to stop).
+
+=item C<GET|POST|PUT|DELETE <path>> — perform a single in-memory request using Cro::HTTP::Test.
+
+=item C<http <path> --method=<verb>> — generic form accepting any method string.
+
+=head2 Goals
+
+=item Rapid prototyping / teaching.
+
+=item Introspection of defined routes without extra code.
+
+=item Preserve native Cro primitives (no bespoke DSL).
+
+=head2 Caveats
+
+=item Early sketch; API may shift.
+
+=item Thin error handling; exceptions surface directly.
+
+=item Not a full project scaffold (logging/TLS/config left to Cro proper).
 
 =head1 AUTHOR
 
-Fernando Corrêa de Oliveira <fernando.correa@payprop.com>
+Fernando Corrêa de Oliveira <fco@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
