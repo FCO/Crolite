@@ -6,6 +6,7 @@
   "build-depends": [
   ],
   "depends": [
+    "Cro"
   ],
   "description": "Lightweight Cro routing + tiny CLI wrapper",
   "license": "Artistic-2.0",
@@ -20,6 +21,7 @@
   "tags": [
   ],
   "test-depends": [
+    "Cro"
   ],
   "version": "0.0.1"
 }

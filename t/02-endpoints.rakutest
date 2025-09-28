@@ -1,0 +1,21 @@
+use Test;
+use Crolite;
+
+multi sub MAIN() { }
+
+# Define some routes
+get -> 'hello' { content 'text/plain', 'hi' }
+post -> 'item', Int $id { content 'text/plain', $id }
+
+# Finalize route set
+$*CRO-ROUTE-SET.definition-complete;
+
+my $eps = endpoints $*CRO-ROUTE-SET; # Associative-like
+my @gists = $eps.values.map(*.gist);
+
+ok @gists.grep({ .contains('GET') && .contains('hello') }), 'GET /hello endpoint registered';
+ok @gists.grep({ .contains('POST') && .contains('item') && .contains('Int') }), 'POST /item Int endpoint registered';
+
+ok @gists.elems >= 2, 'At least two endpoints collected';
+
+done-testing;

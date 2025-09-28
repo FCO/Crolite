@@ -1,6 +1,10 @@
 use Test;
 use Crolite;
 
-pass "replace me";
+# Provide zero-arg MAIN so test run (no args) does not trigger
+# exported CLI usage error from Crolite.
+multi sub MAIN() { }
+
+pass "basic load";
 
 done-testing;

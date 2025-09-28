@@ -1,0 +1,33 @@
+use Test;
+use Crolite;
+use Cro::HTTP::Test;
+
+multi sub MAIN() { }
+
+get -> 'ping' { content 'text/plain', 'pong' }
+
+delete -> 'number', Int $n { content 'application/json', %( :$n ) }
+
+$*CRO-ROUTE-SET.definition-complete;
+
+# Spin up ephemeral test service using the route set.
+my $result = '';
+
+lives-ok {
+    test-service $*CRO-ROUTE-SET, {
+        with $*CRO-HTTP-TEST-CONTEXT -> $ctx {
+            my $resp = await $ctx.client.request: 'GET', '/ping';
+            $result = await $resp.body-text;
+            is $resp.status, 200, 'GET /ping status 200';
+            is $result, 'pong', 'GET /ping body';
+
+            my $resp2 = await $ctx.client.request: 'DELETE', '/number/7';
+            is $resp2.status, 200, 'DELETE /number/7 status 200';
+            my $json = await $resp2.body;
+            isa-ok $json, Hash, 'DELETE response body is a Hash';
+            is $json<n>, 7, 'DELETE route captured Int variable';
+        }
+    }
+}, 'HTTP test-service interaction lives';
+
+done-testing;
