@@ -6,7 +6,9 @@
   "build-depends": [
   ],
   "depends": [
-    "Cro"
+    "Cro",
+    "Cro::HTTP::RouterUtils",
+    "Cro::HTTP"
   ],
   "description": "Lightweight Cro routing + tiny CLI wrapper",
   "license": "Artistic-2.0",
